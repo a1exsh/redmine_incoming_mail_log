@@ -46,10 +46,14 @@ module RedmineIncomingMailLog
       def receive_with_incoming_mail_log(email)
         receive_without_incoming_mail_log(email).tap do |received|
           if incoming_mail
+            # FIXME: duplicated from MailHandler
+            sender_email = email.from.to_a.first.to_s.strip
             project = get_keyword(:project)
-            incoming_mail.update_attributes(:subject => email.subject,
-                                            :handled => !!received,
-                                            :target_project => project)
+
+            incoming_mail.update_attributes(:sender_email => sender_email,
+                                            :subject => email.subject,
+                                            :target_project => project,
+                                            :handled => !!received)
           end
         end
       end

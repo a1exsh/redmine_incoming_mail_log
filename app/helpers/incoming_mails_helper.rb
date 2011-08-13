@@ -6,4 +6,12 @@ module IncomingMailsHelper
       h mail.target_project
     end
   end
+
+  def link_to_or_sender_email(mail)
+    if mail.sender
+      link_to_user mail.sender
+    else
+      h mail.sender_email
+    end
+  end
 end

@@ -4,6 +4,9 @@
 
 <h3><%= @mail.subject %></h3>
 <p>
+  <%=l(:label_sender)%>: <%= link_to_or_sender_email @mail %>
+</p>
+<p>
   <%=l(:label_project)%>: <%= link_to_or_project_name @mail %>
 </p>
 <p>

@@ -2,6 +2,7 @@
 en:
   label_incoming_mail: Incoming Mail
   label_incoming_mail_plural: Incoming Mails
+  label_sender: Sender
   label_subject: Subject
   label_received_on: Received On
   label_handled: Handled
