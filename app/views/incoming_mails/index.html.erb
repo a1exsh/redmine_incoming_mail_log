@@ -7,6 +7,7 @@
 	<th><%=l(:label_subject)%></th>
 	<th><%=l(:label_received_on)%></th>
 	<th><%=l(:label_handled)%></th>
+        <th></th>
       </tr>
     </thead>
     <tbody>
@@ -15,6 +16,10 @@
           <td class="subject"><%= link_to mail.subject, mail %></td>
 	  <td align="center"><%= format_time(mail.created_on) %></td>
 	  <td align="center"><%= checked_image mail.handled? %></td>
+          <td class="buttons">
+            <%= link_to l(:button_delete), mail, :class => 'icon icon-del',
+                :method => :delete, :confirm => l(:text_are_you_sure) %>
+          </td>
         </tr>
       <% end %>
     </tbody>

@@ -14,11 +14,17 @@ class IncomingMailsController < ApplicationController
   end
 
   def destroy
+    @mail.destroy
+    redirect_to :back
+  rescue RedirectBackError
+    redirect_to :action => 'index'
   end
 
   private
 
   def find_incoming_mail
     @mail = IncomingMail.find(params[:id])
+  rescue ActiveRecord::RecordNotFound
+    render_404
   end
 end
