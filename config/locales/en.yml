@@ -4,3 +4,4 @@ en:
   label_incoming_mail_plural: Incoming Mails
   label_subject: Subject
   label_received_on: Received On
+  label_handled: Handled

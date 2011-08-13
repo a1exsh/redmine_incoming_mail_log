@@ -17,7 +17,9 @@ module RedmineIncomingMailLog
       end
       
       def receive_with_incoming_mail_log(email, options)
-        self.send(:class_variable_set, :@@incoming_mail, email)
+        self.send(:class_variable_set, :@@incoming_mail,
+                  IncomingMail.create(:content => email))
+
         receive_without_incoming_mail_log(email, options)
       end
     end
@@ -31,9 +33,9 @@ module RedmineIncomingMailLog
 
       def receive_with_incoming_mail_log(email)
         receive_without_incoming_mail_log(email).tap do |received|
-          raw_email = self.class.send(:class_variable_get, :@@incoming_mail)
-          IncomingMail.create(:subject => email.subject,
-                              :content => raw_email)
+          incoming_mail = self.class.send(:class_variable_get, :@@incoming_mail)
+          incoming_mail.update_attributes(:subject => email.subject,
+                                          :handled => !!received)
         end
       end
     end

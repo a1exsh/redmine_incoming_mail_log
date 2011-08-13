@@ -6,6 +6,7 @@
       <tr>
 	<th><%=l(:label_subject)%></th>
 	<th><%=l(:label_received_on)%></th>
+	<th><%=l(:label_handled)%></th>
       </tr>
     </thead>
     <tbody>
@@ -13,6 +14,7 @@
         <tr class="<%= cycle("odd", "even") %>">
           <td class="subject"><%= link_to mail.subject, mail %></td>
 	  <td align="center"><%= format_time(mail.created_on) %></td>
+	  <td align="center"><%= checked_image mail.handled? %></td>
         </tr>
       <% end %>
     </tbody>
