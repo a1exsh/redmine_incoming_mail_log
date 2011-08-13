@@ -28,19 +28,34 @@ module RedmineIncomingMailLog
       def self.included(base)
         base.class_eval do
           alias_method_chain :receive, :incoming_mail_log
+          (%w(issue) +
+           %w(issue journal message).map{|m| "#{m}_reply"}).each do |model|
+            base.class_eval <<-EOF
+              def receive_#{model}_with_incoming_mail_log
+                receive_#{model}_without_incoming_mail_log
+              rescue => e
+                incoming_mail.update_attribute(:error_message, e.message)
+                raise e
+              end
+            EOF
+            alias_method_chain "receive_#{model}".to_sym, :incoming_mail_log
+          end
         end
       end
 
       def receive_with_incoming_mail_log(email)
         receive_without_incoming_mail_log(email).tap do |received|
-          if incoming_mail = self.class.send(:class_variable_get,
-                                             :@@incoming_mail)
+          if incoming_mail
             project = get_keyword(:project)
             incoming_mail.update_attributes(:subject => email.subject,
                                             :handled => !!received,
                                             :target_project => project)
           end
         end
+      end
+
+      def incoming_mail
+        self.class.send(:class_variable_get, :@@incoming_mail)
       end
     end
   end

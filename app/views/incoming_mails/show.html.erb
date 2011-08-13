@@ -7,6 +7,13 @@
 <p>
   <%=l(:label_received_on)%>: <%= format_time(@mail.created_on) %>
 </p>
+
+<% unless @mail.handled? %>
+<p>
+  <%=l(:label_error_message)%>: <%=h @mail.error_message %>
+</p>
+<% end %>
+
 <div class="wiki">
   <pre><%=h @mail.content %></pre>
 </div>

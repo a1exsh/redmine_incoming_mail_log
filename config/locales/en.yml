@@ -5,3 +5,4 @@ en:
   label_subject: Subject
   label_received_on: Received On
   label_handled: Handled
+  label_error_message: Error Message
