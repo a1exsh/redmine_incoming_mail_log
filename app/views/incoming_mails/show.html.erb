@@ -1,0 +1,9 @@
+<h2><%=l(:label_incoming_mail)%></h2>
+
+<h3><%= @mail.subject %></h3>
+<p>
+  <%=l(:label_received_on)%>: <%= format_time(@mail.created_on) %>
+</p>
+<div class="wiki">
+  <pre><%=h @mail.content %></pre>
+</div>

@@ -1,0 +1,3 @@
+= Redmine Incoming Mail Log plugin
+
+A plugin to record incoming mails and statuses of handling them.

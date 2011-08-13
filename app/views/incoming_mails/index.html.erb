@@ -1,0 +1,20 @@
+<h2><%=l(:label_incoming_mail_plural)%></h2>
+
+<div class="autoscroll">
+  <table class="list">
+    <thead>
+      <tr>
+	<th><%=l(:label_subject)%></th>
+	<th><%=l(:label_received_on)%></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% for mail in @mails %>
+        <tr class="<%= cycle("odd", "even") %>">
+          <td class="subject"><%= link_to mail.subject, mail %></td>
+	  <td align="center"><%= format_time(mail.created_on) %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
