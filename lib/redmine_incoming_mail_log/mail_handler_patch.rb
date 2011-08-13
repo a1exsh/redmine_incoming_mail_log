@@ -33,9 +33,13 @@ module RedmineIncomingMailLog
 
       def receive_with_incoming_mail_log(email)
         receive_without_incoming_mail_log(email).tap do |received|
-          incoming_mail = self.class.send(:class_variable_get, :@@incoming_mail)
-          incoming_mail.update_attributes(:subject => email.subject,
-                                          :handled => !!received)
+          if incoming_mail = self.class.send(:class_variable_get,
+                                             :@@incoming_mail)
+            project = get_keyword(:project)
+            incoming_mail.update_attributes(:subject => email.subject,
+                                            :handled => !!received,
+                                            :target_project => project)
+          end
         end
       end
     end

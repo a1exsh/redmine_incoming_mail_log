@@ -2,6 +2,9 @@
 
 <h3><%= @mail.subject %></h3>
 <p>
+  <%=l(:label_project)%>: <%= link_to_or_project_name @mail %>
+</p>
+<p>
   <%=l(:label_received_on)%>: <%= format_time(@mail.created_on) %>
 </p>
 <div class="wiki">
