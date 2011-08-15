@@ -55,7 +55,11 @@ module RedmineIncomingMailLog
           if incoming_mail
             # FIXME: duplicated from MailHandler
             sender_email = email.from.to_a.first.to_s.strip
+
             project = get_keyword(:project)
+            if project.blank? && received && received.respond_to?(:project)
+              project = received.project.identifier
+            end
 
             incoming_mail.update_attributes(:sender_email => sender_email,
                                             :subject => email.subject,
