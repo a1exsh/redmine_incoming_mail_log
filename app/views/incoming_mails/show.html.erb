@@ -13,12 +13,24 @@
   <%=l(:label_received_on)%>: <%= format_time(@mail.created_on) %>
 </p>
 
+<% unless @mail.log_messages.blank? %>
+<p>
+  <%=l(:label_log_messages)%>:
+</p>
+<div class="wiki">
+  <pre><%=h @mail.log_messages %></pre>
+</div>
+<% end %>
+
 <% unless @mail.handled? %>
 <p>
   <%=l(:label_error_message)%>: <%=h @mail.error_message %>
 </p>
 <% end %>
 
+<p>
+  <%=l(:label_raw_mail_content)%>:
+</p>
 <div class="wiki">
   <pre><%=h @mail.content %></pre>
 </div>

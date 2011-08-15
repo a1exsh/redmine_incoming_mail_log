@@ -7,3 +7,5 @@ en:
   label_received_on: Received On
   label_handled: Handled
   label_error_message: Error Message
+  label_log_messages: Log Messages
+  label_raw_mail_content: Raw Mail Content

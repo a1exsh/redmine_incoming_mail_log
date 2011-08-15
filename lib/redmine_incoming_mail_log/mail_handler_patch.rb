@@ -27,6 +27,7 @@ module RedmineIncomingMailLog
     module InstanceMethods
       def self.included(base)
         base.class_eval do
+          alias_method_chain :logger, :incoming_mail_log
           alias_method_chain :receive, :incoming_mail_log
           (%w(issue) +
            %w(issue journal message).map{|m| "#{m}_reply"}).each do |model|
@@ -43,6 +44,15 @@ module RedmineIncomingMailLog
         end
       end
 
+      def logger_with_incoming_mail_log
+        @log_trace_proc ||= Proc.new do |level, msg|
+          @log_messages ||= ""
+          @log_messages << "#{level}: #{msg}\n"
+        end
+        TracingLoggerWrapper.new(logger_without_incoming_mail_log,
+                                 @log_trace_proc)
+      end
+
       def receive_with_incoming_mail_log(email)
         receive_without_incoming_mail_log(email).tap do |received|
           if incoming_mail
@@ -53,7 +63,8 @@ module RedmineIncomingMailLog
             incoming_mail.update_attributes(:sender_email => sender_email,
                                             :subject => email.subject,
                                             :target_project => project,
-                                            :handled => !!received)
+                                            :handled => !!received,
+                                            :log_messages => @log_messages)
           end
         end
       end
