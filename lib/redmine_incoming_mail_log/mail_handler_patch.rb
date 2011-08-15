@@ -45,12 +45,9 @@ module RedmineIncomingMailLog
       end
 
       def logger_with_incoming_mail_log
-        @log_trace_proc ||= Proc.new do |level, msg|
-          @log_messages ||= ""
-          @log_messages << "#{level}: #{msg}\n"
-        end
-        TracingLoggerWrapper.new(logger_without_incoming_mail_log,
-                                 @log_trace_proc)
+        @tracing_logger ||= TracingLoggerWrapper.\
+        new(logger_without_incoming_mail_log || Logger.new(nil),
+            Proc.new{|level, msg| (@log_messages ||= "") << "#{level}: #{msg}\n"})
       end
 
       def receive_with_incoming_mail_log(email)
