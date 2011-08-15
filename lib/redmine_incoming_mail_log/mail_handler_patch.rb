@@ -32,8 +32,8 @@ module RedmineIncomingMailLog
           (%w(issue) +
            %w(issue journal message).map{|m| "#{m}_reply"}).each do |model|
             base.class_eval <<-EOF
-              def receive_#{model}_with_incoming_mail_log
-                receive_#{model}_without_incoming_mail_log
+              def receive_#{model}_with_incoming_mail_log(*args)
+                receive_#{model}_without_incoming_mail_log(*args)
               rescue => e
                 incoming_mail.update_attribute(:error_message, e.message)
                 raise e
