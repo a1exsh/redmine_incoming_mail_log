@@ -21,5 +21,6 @@ Redmine::Plugin.register :redmine_incoming_mail_log do
 
   menu :admin_menu, :incoming_mails,
     { :controller => 'incoming_mails', :action => 'index' },
-    :caption => 'Incoming Mails', :html => { :class => 'incoming_mails' }
+    :caption => :label_incoming_mail_plural,
+    :html => { :class => 'incoming_mails' }
 end
