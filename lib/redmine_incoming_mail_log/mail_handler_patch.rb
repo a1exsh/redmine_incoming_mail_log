@@ -66,6 +66,14 @@ module RedmineIncomingMailLog
                                             :target_project => project,
                                             :handled => !!received,
                                             :log_messages => @log_messages)
+
+            unless received
+              settings = Setting['plugin_redmine_incoming_mail_log']
+              if settings && settings['notify_failed'] == '1'
+                Mailer.deliver_failed_incoming_mail(incoming_mail,
+                                                    settings['notify_email'])
+              end
+            end
           end
         end
       end

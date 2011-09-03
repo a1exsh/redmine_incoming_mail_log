@@ -9,3 +9,8 @@ en:
   label_error_message: Error Message
   label_log_messages: Log Messages
   label_raw_mail_content: Raw Mail Content
+  label_settings_notify: Failed email submissions notification
+  label_settings_notify_failed: Notify
+  label_settings_notify_email: To this email address
+  mail_subject_failed_incoming_mail: Failed to handle Incoming Mail
+  mail_body_failed_incoming_mail: "Oops, Redmine has failed to handle a mail sent to it.  To find out details of the incoming mail visit this link: "

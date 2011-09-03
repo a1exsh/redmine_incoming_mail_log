@@ -1,0 +1,18 @@
+<fieldset>
+<legend><%=l :label_settings_notify %></legend>
+<p>
+  <%= label_tag :settings_notify_failed, l(:label_settings_notify_failed) %>
+  <%= hidden_field_tag 'settings[notify_failed]', '0', :id => nil %>
+  <%= check_box_tag 'settings[notify_failed]', '1',
+      (settings['notify_failed'] == '1'),
+      :id => :settings_notify_failed,
+      :onclick => "if (this.checked) { Form.Element.enable('settings_notify_email'); } else { Form.Element.disable('settings_notify_email'); }" %>
+</p>
+
+<p>
+  <%= label_tag :settings_notify_email, l(:label_settings_notify_email) %>
+  <%= text_field_tag 'settings[notify_email]', settings['notify_email'],
+      :id => :settings_notify_email, :size => 30,
+      :disabled => (settings['notify_failed'] != '1') %>
+</p>
+</fieldset>

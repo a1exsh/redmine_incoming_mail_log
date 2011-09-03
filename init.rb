@@ -9,6 +9,10 @@ Dispatcher.to_prepare :redmine_incoming_mail_log do
   unless MailHandler.included_modules.include? RedmineIncomingMailLog::MailHandlerPatch
     MailHandler.send(:include, RedmineIncomingMailLog::MailHandlerPatch)
   end
+
+  unless Mailer.included_modules.include? RedmineIncomingMailLog::MailerPatch
+    Mailer.send(:include, RedmineIncomingMailLog::MailerPatch)
+  end
 end
 
 Redmine::Plugin.register :redmine_incoming_mail_log do
