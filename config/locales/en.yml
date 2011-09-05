@@ -1,16 +1,16 @@
 # English strings go here for Rails i18n
 en:
-  label_incoming_mail: Incoming Mail
-  label_incoming_mail_plural: Incoming Mails
+  label_incoming_mail: Incoming email
+  label_incoming_mail_plural: Incoming emails
   label_sender: Sender
   label_subject: Subject
-  label_received_on: Received On
+  label_received_on: Received on
   label_handled: Handled
-  label_error_message: Error Message
-  label_log_messages: Log Messages
-  label_raw_mail_content: Raw Mail Content
+  label_error_message: Error message
+  label_log_messages: Log messages
+  label_raw_mail_content: Raw mail content
   label_settings_notify: Failed email submissions notification
-  label_settings_notify_failed: Notify
+  label_settings_notify_failed: Send notification
   label_settings_notify_email: To this email address
-  mail_subject_failed_incoming_mail: Failed to handle Incoming Mail
+  mail_subject_failed_incoming_mail: Failed to handle incoming mail
   mail_body_failed_incoming_mail: "Oops, Redmine has failed to handle a mail sent to it.  To find out details of the incoming mail visit this link: "
