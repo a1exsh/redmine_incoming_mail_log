@@ -1,3 +1,5 @@
 <p>
 <%=l :mail_body_failed_incoming_mail %> <%= link_to @url, @url %>
 </p>
+
+<%= render :partial => 'incoming_mails/info', :locals => {:mail => @mail} %>

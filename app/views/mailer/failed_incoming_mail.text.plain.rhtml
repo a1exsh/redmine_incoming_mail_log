@@ -1,1 +1,4 @@
 <%=l :mail_body_failed_incoming_mail %> <%= @url %>
+
+<%= render :partial => 'incoming_mails/info_text_plain',
+    :locals => {:mail => @mail} %>

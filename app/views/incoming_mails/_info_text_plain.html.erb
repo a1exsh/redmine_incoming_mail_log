@@ -1,0 +1,14 @@
+<%=l(:label_subject)%>: <%= mail.display_subject %>
+<%=l(:label_sender)%>: <%=h mail.sender_email %>
+<%=l(:label_project)%>: <%=h mail.target_project %>
+<%=l(:label_received_on)%>: <%= format_time(mail.created_on) %>
+
+<% unless mail.log_messages.blank? -%>
+<%=l(:label_log_messages)%>:
+
+<%=h mail.log_messages %>
+<% end -%>
+
+<% unless mail.handled? -%>
+<%=l(:label_error_message)%>: <%=h mail.error_message %>
+<% end -%>
