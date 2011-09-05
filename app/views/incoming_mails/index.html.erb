@@ -17,7 +17,7 @@
     <tbody>
       <% for mail in @mails %>
         <tr class="<%= cycle("odd", "even") %>">
-          <td class="subject"><%= link_to mail.subject, mail %></td>
+          <td class="subject"><%= link_to mail.display_subject, mail %></td>
           <td class="name"><%= link_to_or_sender_email mail %></td>
           <td class="name"><%= link_to_or_project_name mail %></td>
 	  <td align="center"><%= format_time(mail.created_on) %></td>

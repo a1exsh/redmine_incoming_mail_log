@@ -24,4 +24,8 @@ class IncomingMail < ActiveRecord::Base
     @sender = nil
     super *args
   end
+
+  def display_subject
+    subject.present? ? subject : "(no subject)"
+  end
 end
