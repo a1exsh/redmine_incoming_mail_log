@@ -6,8 +6,16 @@ class IncomingMailsController < ApplicationController
   before_filter :find_incoming_mail, :only => [:show, :destroy]
 
   def index
-    # TODO: search & pagination
-    @mails = IncomingMail.all
+    @limit = per_page_option
+
+    @mail_count = IncomingMail.count
+    @mail_pages = Paginator.new(self, @mail_count, @limit, params[:page])
+    @offset ||= @mail_pages.current.offset
+
+    # TODO: search
+    @mails = IncomingMail.all(:order => "created_on DESC",
+                              :offset => @offset,
+                              :limit => @limit)
   end
 
   def show

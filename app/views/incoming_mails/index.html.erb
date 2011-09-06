@@ -2,6 +2,9 @@
 
 <h2><%=l(:label_incoming_mail_plural)%></h2>
 
+<% if @mails.empty? %>
+<p class="nodata"><%= l(:label_no_data) %></p>
+<% else %>
 <div class="autoscroll">
   <table class="list">
     <thead>
@@ -31,3 +34,8 @@
     </tbody>
   </table>
 </div>
+
+<p class="pagination">
+  <%= pagination_links_full @mail_pages, @mail_count %>
+</p>
+<% end %>
