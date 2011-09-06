@@ -10,3 +10,7 @@
 <div class="wiki">
   <pre><%=h @mail.content %></pre>
 </div>
+
+<% other_formats_links do |f| %>
+  <%= f.link_to 'Text', :url => params %>
+<% end %>

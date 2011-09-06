@@ -19,6 +19,10 @@ class IncomingMailsController < ApplicationController
   end
 
   def show
+    respond_to do |format|
+      format.html
+      format.text { render :text => @mail.content }
+    end
   end
 
   def destroy
