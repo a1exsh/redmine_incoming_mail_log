@@ -19,7 +19,7 @@ class IncomingMailsController < ApplicationController
 
     @limit = per_page_option
 
-    @mail_count = IncomingMail.count
+    @mail_count = IncomingMail.count(:conditions => conditions)
     @mail_pages = Paginator.new(self, @mail_count, @limit, params[:page])
     @offset ||= @mail_pages.current.offset
 
