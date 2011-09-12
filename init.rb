@@ -5,6 +5,7 @@ require_dependency 'redmine_incoming_mail_log/view_hooks'
 
 Dispatcher.to_prepare :redmine_incoming_mail_log do
   require_dependency 'mail_handler'
+  require_dependency 'mailer'
 
   unless MailHandler.included_modules.include? RedmineIncomingMailLog::MailHandlerPatch
     MailHandler.send(:include, RedmineIncomingMailLog::MailHandlerPatch)
