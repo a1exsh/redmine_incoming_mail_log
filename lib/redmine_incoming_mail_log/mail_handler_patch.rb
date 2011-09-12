@@ -17,8 +17,12 @@ module RedmineIncomingMailLog
       end
       
       def receive_with_incoming_mail_log(email, options)
-        self.send(:class_variable_set, :@@incoming_mail,
-                  IncomingMail.create(:content => email))
+        begin
+          self.send(:class_variable_set, :@@incoming_mail,
+                    IncomingMail.create!(:content => email))
+        rescue => e
+          logger.error "MailHandler: failed to log incoming mail: #{e.inspect}" if logger
+        end
 
         receive_without_incoming_mail_log(email, options)
       end
@@ -61,11 +65,15 @@ module RedmineIncomingMailLog
               project = received.project.identifier
             end
 
-            incoming_mail.update_attributes(:sender_email => sender_email,
-                                            :subject => email.subject,
-                                            :target_project => project,
-                                            :handled => !!received,
-                                            :log_messages => @log_messages)
+            begin
+              incoming_mail.update_attributes!(:sender_email => sender_email,
+                                               :subject => email.subject,
+                                               :target_project => project,
+                                               :handled => !!received,
+                                               :log_messages => @log_messages)
+            rescue => e
+              logger.error "MailHandler: failed to update incoming mail log: #{e.inspect}" if logger
+            end
 
             unless received
               settings = Setting['plugin_redmine_incoming_mail_log']
@@ -79,7 +87,7 @@ module RedmineIncomingMailLog
       end
 
       def incoming_mail
-        self.class.send(:class_variable_get, :@@incoming_mail)
+        self.class.send(:class_variable_get, :@@incoming_mail) if self.class.class_variable_defined?(:@@incoming_mail)
       end
     end
   end
