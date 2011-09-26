@@ -29,5 +29,6 @@ Redmine::Plugin.register :redmine_incoming_mail_log do
     :caption => :label_incoming_mail_plural,
     :html => { :class => 'incoming_mails' }
 
-  settings :default => {}, :partial => 'settings/settings'
+  settings :default => {},
+    :partial => 'settings/redmine_incoming_mail_log_settings'
 end
