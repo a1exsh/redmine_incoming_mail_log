@@ -1,5 +1,4 @@
-redmine_incoming_mail_log -- A plugin to record incoming mails and
-statuses of handling them.
+redmine_incoming_mail_log -- A Redmine plugin to track incoming mail.
 
 Copyright (C) 2011  Alex Shuglin <ash@commandprompt.com>
 
