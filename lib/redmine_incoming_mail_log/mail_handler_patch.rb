@@ -38,6 +38,10 @@ module RedmineIncomingMailLog
             base.class_eval <<-EOF
               def receive_#{model}_with_incoming_mail_log(*args)
                 receive_#{model}_without_incoming_mail_log(*args)
+              rescue UnauthorizedAction
+                # lower severity (original code reports an error here)
+                logger.info "MailHandler: unauthorized attempt from #{@user}"
+                false
               rescue => e
                 incoming_mail.update_attribute(:error_message, e.message)
                 raise e
@@ -75,7 +79,7 @@ module RedmineIncomingMailLog
               logger.error "MailHandler: failed to update incoming mail log: #{e.inspect}" if logger
             end
 
-            unless received
+            if !received && logger.seen_error?
               settings = Setting['plugin_redmine_incoming_mail_log']
               if settings && settings['notify_failed'] == '1'
                 Mailer.deliver_failed_incoming_mail(incoming_mail,
