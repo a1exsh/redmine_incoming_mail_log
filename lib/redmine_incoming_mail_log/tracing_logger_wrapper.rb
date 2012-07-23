@@ -16,13 +16,12 @@ module RedmineIncomingMailLog
         instance_variable_defined?(:"@seen_#{name}")
       end
 
-      define_method(name.to_sym) do |msg|
+      define_method(name.to_sym) do |msg=nil|
         self.send(:"seen_#{name}")
-
-        if !@logger.respond_to?(:"#{name}?") || @logger.send(:"#{name}?")
-          @trace_proc.call(name.upcase, msg)
+        if @logger.send(name.to_sym, msg)
+          @trace_proc.call(name, msg)
+          true
         end
-        @logger.send(name.to_sym, msg)
       end
     end
   end
