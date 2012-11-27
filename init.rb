@@ -1,26 +1,10 @@
 require 'redmine'
-require 'dispatcher'
-
-require_dependency 'redmine_incoming_mail_log/view_hooks'
-
-Dispatcher.to_prepare :redmine_incoming_mail_log do
-  require_dependency 'mail_handler'
-  require_dependency 'mailer'
-
-  unless MailHandler.included_modules.include? RedmineIncomingMailLog::MailHandlerPatch
-    MailHandler.send(:include, RedmineIncomingMailLog::MailHandlerPatch)
-  end
-
-  unless Mailer.included_modules.include? RedmineIncomingMailLog::MailerPatch
-    Mailer.send(:include, RedmineIncomingMailLog::MailerPatch)
-  end
-end
 
 Redmine::Plugin.register :redmine_incoming_mail_log do
   name 'Redmine Incoming Mail Log plugin'
   author 'Alex Shulgin <ash@commandprompt.com>'
   description 'A plugin to record incoming mails and statuses of handling them.'
-  version '0.0.1'
+  version '0.2.0'
   url 'http://github.com/commandprompt/redmine_incoming_mail_log'
   #  author_url 'http://example.com/about'
 
@@ -32,3 +16,16 @@ Redmine::Plugin.register :redmine_incoming_mail_log do
   settings :default => {},
     :partial => 'settings/redmine_incoming_mail_log_settings'
 end
+
+prepare_block = Proc.new do
+  MailHandler.send(:include, RedmineIncomingMailLog::MailHandlerPatch)
+  Mailer.send(:include, RedmineIncomingMailLog::MailerPatch)
+end
+
+if Rails.env.development?
+  ActionDispatch::Reloader.to_prepare { prepare_block.call }
+else
+  prepare_block.call
+end
+
+require_dependency 'redmine_incoming_mail_log/view_hooks'

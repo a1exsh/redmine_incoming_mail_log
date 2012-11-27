@@ -61,8 +61,7 @@ module RedmineIncomingMailLog
       def receive_with_incoming_mail_log(email)
         receive_without_incoming_mail_log(email).tap do |received|
           if incoming_mail
-            # FIXME: duplicated from MailHandler
-            sender_email = email.from.to_a.first.to_s.strip
+            sender_email = email.from.first
 
             project = get_keyword(:project)
             if project.blank? && received && received.respond_to?(:project)
@@ -82,8 +81,7 @@ module RedmineIncomingMailLog
             if !received && logger.seen_error?
               settings = Setting['plugin_redmine_incoming_mail_log']
               if settings && settings['notify_failed'] == '1'
-                Mailer.deliver_failed_incoming_mail(incoming_mail,
-                                                    settings['notify_email'])
+                Mailer.failed_incoming_mail(incoming_mail, settings['notify_email']).deliver
               end
             end
           end

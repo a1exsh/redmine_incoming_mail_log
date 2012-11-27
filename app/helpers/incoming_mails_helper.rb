@@ -3,7 +3,7 @@ module IncomingMailsHelper
     if mail.project
       link_to_project mail.project
     else
-      h mail.target_project
+      mail.target_project
     end
   end
 
@@ -11,7 +11,7 @@ module IncomingMailsHelper
     if mail.sender
       link_to_user mail.sender
     else
-      h mail.sender_email
+      mail.sender_email
     end
   end
 end
