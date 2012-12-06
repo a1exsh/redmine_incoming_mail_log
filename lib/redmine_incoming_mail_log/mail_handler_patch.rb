@@ -61,8 +61,6 @@ module RedmineIncomingMailLog
       def receive_with_incoming_mail_log(email)
         receive_without_incoming_mail_log(email).tap do |received|
           if incoming_mail
-            sender_email = email.from.first
-
             project = get_keyword(:project)
             if project.blank? && received && received.respond_to?(:project)
               project = received.project.identifier
