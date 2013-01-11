@@ -6,6 +6,7 @@ en:
   label_subject: Subject
   label_received_on: Received on
   label_handled: Handled
+  label_unhandled_only: Only unhandled
   label_error_message: Error message
   label_log_messages: Log messages
   label_raw_mail_content: Raw mail content

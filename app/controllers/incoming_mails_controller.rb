@@ -6,28 +6,35 @@ class IncomingMailsController < ApplicationController
   before_filter :find_incoming_mail, :only => [:show, :destroy]
 
   def index
-    conditions = {}
+    @mails = IncomingMail
+
+    @subject_like = params[:subject]
+    @mails = @mails.subject_like(@subject_like) if @subject_like.present?
+
+    @sender_like = params[:sender]
+    @mails = @mails.sender_like(@sender_like) if @sender_like.present?
 
     @projects = Project.all
     if params[:project].present?
       begin
-        @project = Project.find(params[:project]) 
-        conditions.merge!(:target_project => @project.identifier)
+        @project = Project.find(params[:project])
+        @mails = @mails.for_project(@project.identifier)
       rescue ActiveRecord::RecordNotFound
       end
     end
 
+    @unhandled_only = (params[:unhandled_only] ||= "1") == "1"
+    @mails = @mails.unhandled if @unhandled_only
+
     @limit = per_page_option
 
-    @mail_count = IncomingMail.count(:conditions => conditions)
+    @mail_count = @mails.count
     @mail_pages = Paginator.new(self, @mail_count, @limit, params[:page])
     @offset ||= @mail_pages.current.offset
 
-    # TODO: search
-    @mails = IncomingMail.all(:conditions => conditions,
-                              :order => "created_on DESC",
-                              :offset => @offset,
-                              :limit => @limit)
+    @mails = @mails.all(:order => "created_on DESC",
+                        :offset => @offset,
+                        :limit => @limit)
   end
 
   def show
