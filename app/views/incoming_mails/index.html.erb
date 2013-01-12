@@ -3,26 +3,26 @@
 <h2><%=l(:label_incoming_mail_plural)%></h2>
 
 <%= form_tag({}, {:method => :get}) do %>
-  <p>
+  <fieldset>
+    <legend><%=l :label_filter_plural %></legend>
     <%= label_tag 'subject', l(:label_subject) %>
     <%= text_field_tag 'subject', @subject_like %>
-  </p>
-  <p>
+
     <%= label_tag 'sender', l(:label_sender) %>
     <%= text_field_tag 'sender', @sender_like %>
-  </p>
-  <p>
+
     <%= label_tag 'project_select', l(:label_project) %>
     <% options = project_tree_options_for_select(@projects, :selected => @project) { |p| { :value => p.identifier } }%>
     <%= select_tag :project, ('<option value=""></option>' + options).html_safe,
         :id => 'project_select' %>
-  </p>
-  <p>
+    <br/>
     <%= hidden_field_tag 'unhandled_only', "0", :id => nil %>
     <%= check_box_tag 'unhandled_only', "1", @unhandled_only %>
     <%= label_tag 'unhandled_only', l(:label_unhandled_only) %>
-  </p>
-  <p><%= submit_tag l(:button_apply) %></p>
+    <br/>
+    <%= submit_tag l(:button_apply) %>
+    <%= link_to l(:button_clear), incoming_mails_path, :class => 'icon icon-reload' %>
+  </fieldset>
 <% end %>
 
 <% if @mails.empty? %>
