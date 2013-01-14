@@ -1,0 +1,7 @@
+<% tp.set :max_width, 64 %>
+<%= TablePrint::Printer.table_print @mails,
+      [:target_project,
+       { :subject => { :width => 32 } },
+       { :sender_email => { :width => 32 } },
+       { :created_on => { :time_format => '%x %X' } },
+       { :url => { :display_method => lambda{|mail| incoming_mail_url(mail)}, :width => 64 } }] %>

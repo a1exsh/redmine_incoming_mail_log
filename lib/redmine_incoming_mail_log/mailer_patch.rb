@@ -12,5 +12,11 @@ module RedmineIncomingMailLog
       mail :to => notify_addresses,
         :subject => l(:mail_subject_failed_incoming_mail)
     end
+
+    def unhandled_mail_report(mails, notify_addresses)
+      @mails = mails
+      mail :to => notify_addresses,
+        :subject => l(:mail_subject_unhandled_mail_report)
+    end
   end
 end
