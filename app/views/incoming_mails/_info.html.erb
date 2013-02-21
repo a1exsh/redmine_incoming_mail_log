@@ -1,25 +1,15 @@
 <h3><%= mail.display_subject %></h3>
-<p>
-  <%=l(:label_sender)%>: <%= link_to_or_sender_email mail %>
-</p>
-<p>
-  <%=l(:label_project)%>: <%= link_to_or_project_name mail %>
-</p>
-<p>
-  <%=l(:label_received_on)%>: <%= format_time(mail.created_on) %>
-</p>
+<p><%=l(:label_sender)%>: <%= link_to_or_sender_email mail %></p>
+<p><%=l(:label_project)%>: <%= link_to_or_project_name mail %></p>
+<p><%=l(:label_received_on)%>: <%= format_time(mail.created_on) %></p>
 
 <% unless mail.log_messages.blank? %>
-<p>
-  <%=l(:label_log_messages)%>:
-</p>
+<p><%=l(:label_log_messages)%>:</p>
 <div class="wiki">
   <pre><%= mail.log_messages %></pre>
 </div>
 <% end %>
 
 <% unless mail.handled? %>
-<p>
-  <%=l(:label_error_message)%>: <%= mail.error_message %>
-</p>
+<p><%=l(:label_error_message)%>: <%= mail.error_message %></p>
 <% end %>

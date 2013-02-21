@@ -4,9 +4,7 @@
 
 <%= render :partial => 'incoming_mails/info', :locals => {:mail => @mail} %>
 
-<p>
-  <%=l(:label_raw_mail_content)%>:
-</p>
+<p><%=l(:label_raw_mail_content)%>:</p>
 <div class="wiki">
   <pre><%= @mail.content %></pre>
 </div>
