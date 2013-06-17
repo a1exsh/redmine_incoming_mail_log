@@ -19,7 +19,7 @@ module RedmineIncomingMailLog
       def receive_with_incoming_mail_log(email, options)
         begin
           self.send(:class_variable_set, :@@incoming_mail,
-                    IncomingMail.create!(:content => email))
+                    IncomingMail.create!(:content => encode_email(email)))
         rescue => e
           logger.error "MailHandler: failed to log incoming mail: #{e.inspect}" if logger
         end
