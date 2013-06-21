@@ -19,12 +19,21 @@ module RedmineIncomingMailLog
       def receive_with_incoming_mail_log(email, options)
         begin
           self.send(:class_variable_set, :@@incoming_mail,
-                    IncomingMail.create!(:content => encode_email(email)))
+                    IncomingMail.create!(:content => utf8_clean(email.dup)))
         rescue => e
           logger.error "MailHandler: failed to log incoming mail: #{e.inspect}" if logger
         end
 
         receive_without_incoming_mail_log(email, options)
+      end
+
+      private
+
+      def utf8_clean(text)
+        text.force_encoding('ASCII-8BIT') if text.respond_to?(:force_encoding)
+        text.encode!('UTF-8', :invalid => :replace, :undef => :replace,
+                     :replace => '?') if text.respond_to?(:encode!)
+        text
       end
     end
 
@@ -67,11 +76,11 @@ module RedmineIncomingMailLog
             end
 
             begin
-              incoming_mail.update_attributes!(:sender_email => sender_email,
-                                               :subject => email.subject,
-                                               :target_project => project,
+              incoming_mail.update_attributes!(:sender_email => utf8_clean(sender_email),
+                                               :subject => utf8_clean(email.subject),
+                                               :target_project => utf8_clean(project),
                                                :handled => !!received,
-                                               :log_messages => @log_messages)
+                                               :log_messages => utf8_clean(@log_messages))
             rescue => e
               logger.error "MailHandler: failed to update incoming mail log: #{e.inspect}" if logger
             end
