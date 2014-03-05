@@ -52,7 +52,7 @@ module RedmineIncomingMailLog
               rescue => e
                 # FIXME: the truncate and utf8_clean is a hack, it has
                 # to be handled automatically in the model
-                incoming_mail.update_attribute(:error_message, MailHandler.utf8_clean(e.message.truncate(255)))
+                incoming_mail.update_attribute(:error_message, clean_string(e.message))
                 raise e
               end
             EOF
@@ -76,11 +76,11 @@ module RedmineIncomingMailLog
             end
 
             begin
-              incoming_mail.update_attributes!(:sender_email => MailHandler.utf8_clean(sender_email),
-                                               :subject => MailHandler.utf8_clean(email.subject),
-                                               :target_project => MailHandler.utf8_clean(project),
+              incoming_mail.update_attributes!(:sender_email => clean_string(sender_email),
+                                               :subject => clean_string(email.subject),
+                                               :target_project => clean_string(project),
                                                :handled => !!received,
-                                               :log_messages => MailHandler.utf8_clean(@log_messages))
+                                               :log_messages => clean_string(@log_messages))
             rescue => e
               logger.error "MailHandler: failed to update incoming mail log: #{e.inspect}" if logger
             end
@@ -97,6 +97,10 @@ module RedmineIncomingMailLog
 
       def incoming_mail
         self.class.send(:class_variable_get, :@@incoming_mail) if self.class.class_variable_defined?(:@@incoming_mail)
+      end
+
+      def clean_string(text)
+        MailHandler.utf8_clean(text.truncate(255))
       end
     end
   end
