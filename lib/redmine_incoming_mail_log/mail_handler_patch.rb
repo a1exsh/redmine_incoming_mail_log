@@ -50,7 +50,9 @@ module RedmineIncomingMailLog
                 logger.info "MailHandler: unauthorized attempt from #{@user}"
                 false
               rescue => e
-                incoming_mail.update_attribute(:error_message, e.message)
+                # FIXME: the truncate and utf8_clean is a hack, it has
+                # to be handled automatically in the model
+                incoming_mail.update_attribute(:error_message, MailHandler.utf8_clean(e.message.truncate(255)))
                 raise e
               end
             EOF
