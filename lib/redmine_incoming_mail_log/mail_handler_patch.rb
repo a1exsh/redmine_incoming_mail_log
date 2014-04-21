@@ -24,7 +24,11 @@ module RedmineIncomingMailLog
           logger.error "MailHandler: failed to log incoming mail: #{e.inspect}" if logger
         end
 
-        receive_without_incoming_mail_log(email, options)
+        begin
+          receive_without_incoming_mail_log(email, options)
+        rescue => e
+          logger.error "MailHandler: failed to parse incoming mail: #{e.inspect}" if logger
+        end
       end
 
       def utf8_clean(text)
